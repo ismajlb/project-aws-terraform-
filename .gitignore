@@ -1,0 +1,20 @@
+
+# Terraform state files
+*.tfstate
+*.tfstate.backup
+
+# Sensitive variable files
+*.tfvars
+
+# Crash logs
+crash.log
+
+# Terraform directories
+.terraform/
+
+# IDE/editor files (optional)
+*.idea/
+*.vscode/
+
+malikey.tf
+malikey.pub
