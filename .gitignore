@@ -16,5 +16,5 @@ crash.log
 *.idea/
 *.vscode/
 
-malikey.tf
-malikey.pub
+Keypair.tf
+malikey
