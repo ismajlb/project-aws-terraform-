@@ -8,13 +8,16 @@ data "aws_ami" "amiID" {
   }
 }
 
-resource "aws_instance" "web" {
+resource "aws_instance" "app" {
+  count                  = 2
   ami                    = var.amiID[var.region]
   instance_type          = "t3.micro"
   key_name               = "mali-key"
   vpc_security_group_ids = [aws_security_group.mali-sg.id]
-  availability_zone      = var.zone1
-  subnet_id              = aws_subnet.mali-pub-1.id
+  availability_zone      = count.index == 0 ? var.zone1 : var.zone2
+  subnet_id              = count.index == 0 ? aws_subnet.subnet-pub-1.id : aws_subnet.subnet-pub-2.id
+
+
 
   tags = {
     Name    = "name_of_instance"
@@ -49,19 +52,18 @@ resource "aws_instance" "web" {
 }
 
 resource "aws_ec2_instance_state" "web-state" {
-  instance_id = aws_instance.web.id
+  count       = 2
+  instance_id = aws_instance.app[count.index].id
   state       = "running"
-
 }
 
 output "WebPublicIP" {
   description = "AMI ID of Linux Amazon"
-  value       = aws_instance.web.public_ip
-
+  value       = [for i in aws_instance.app : i.public_ip]
 }
 
 output "WebPrivateIP" {
   description = "AMI ID of Linux Amazon"
-  value       = aws_instance.web.private_ip
-
+  value       = [for i in aws_instance.app : i.private_ip]
 }
+
