@@ -31,20 +31,9 @@ resource "aws_subnet" "mali-pub-2" {
 
 }
 
-resource "aws_subnet" "mali-pub-3" {
-  vpc_id                  = aws_vpc.test_vpc.id
-  cidr_block              = "10.0.3.0/24"
-  map_public_ip_on_launch = "true"
-  availability_zone       = var.zone3
-  tags = {
-    Name = "mali-pub-3"
-  }
-
-}
-
 resource "aws_subnet" "mali-priv-1" {
   vpc_id                  = aws_vpc.test_vpc.id
-  cidr_block              = "10.0.4.0/24"
+  cidr_block              = "10.0.10.0/24"
   map_public_ip_on_launch = "true"
   availability_zone       = var.zone1
   tags = {
@@ -55,7 +44,7 @@ resource "aws_subnet" "mali-priv-1" {
 
 resource "aws_subnet" "mali-priv-2" {
   vpc_id                  = aws_vpc.test_vpc.id
-  cidr_block              = "10.0.5.0/24"
+  cidr_block              = "10.0.20.0/24"
   map_public_ip_on_launch = "true"
   availability_zone       = var.zone2
   tags = {
@@ -64,16 +53,6 @@ resource "aws_subnet" "mali-priv-2" {
 
 }
 
-resource "aws_subnet" "mali-priv-3" {
-  vpc_id                  = aws_vpc.test_vpc.id
-  cidr_block              = "10.0.6.0/24"
-  map_public_ip_on_launch = "true"
-  availability_zone       = var.zone3
-  tags = {
-    Name = "mali-priv-3"
-  }
-
-}
 
 resource "aws_internet_gateway" "mali-IGW" {
   vpc_id = aws_vpc.test_vpc.id
@@ -103,12 +82,6 @@ resource "aws_route_table_association" "mali-pub-1-a" {
 
 resource "aws_route_table_association" "mali-pub-2-a" {
   subnet_id      = aws_subnet.mali-pub-2.id
-  route_table_id = aws_route_table.mali-pub-RT.id
-
-}
-
-resource "aws_route_table_association" "mali-pub-3-a" {
-  subnet_id      = aws_subnet.mali-pub-3.id
   route_table_id = aws_route_table.mali-pub-RT.id
 
 }

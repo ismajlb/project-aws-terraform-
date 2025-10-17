@@ -17,7 +17,7 @@ resource "aws_instance" "web" {
   subnet_id              = aws_subnet.mali-pub-1.id
 
   tags = {
-    Name    = "Emri i Instances"
+    Name    = "name_of_instance"
     Project = "Test Project"
   }
 
