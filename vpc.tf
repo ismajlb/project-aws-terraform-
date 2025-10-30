@@ -1,3 +1,4 @@
+# Create the main VPC
 resource "aws_vpc" "test_vpc" {
   cidr_block           = "10.0.0.0/16"
   instance_tenancy     = "default"
@@ -9,6 +10,7 @@ resource "aws_vpc" "test_vpc" {
 
 }
 
+# Create first public subnet in Zone 1
 resource "aws_subnet" "subnet-pub-1" {
   vpc_id                  = aws_vpc.test_vpc.id
   cidr_block              = "10.0.1.0/24"
@@ -20,6 +22,7 @@ resource "aws_subnet" "subnet-pub-1" {
 
 }
 
+# Create second public subnet in Zone 2
 resource "aws_subnet" "subnet-pub-2" {
   vpc_id                  = aws_vpc.test_vpc.id
   cidr_block              = "10.0.2.0/24"
@@ -31,6 +34,7 @@ resource "aws_subnet" "subnet-pub-2" {
 
 }
 
+# Create first private subnet in Zone 1
 resource "aws_subnet" "subnet-priv-1" {
   vpc_id                  = aws_vpc.test_vpc.id
   cidr_block              = "10.0.10.0/24"
@@ -41,7 +45,7 @@ resource "aws_subnet" "subnet-priv-1" {
   }
 
 }
-
+# Create second private subnet in Zone 2 (will use NAT Gateway)
 resource "aws_subnet" "subnet-priv-2" {
   vpc_id                  = aws_vpc.test_vpc.id
   cidr_block              = "10.0.20.0/24"
@@ -53,7 +57,26 @@ resource "aws_subnet" "subnet-priv-2" {
 
 }
 
+# Allocate an Elastic IP for the NAT Gateway
+resource "aws_eip" "nat" {
+  domain = "vpc"
+  tags = {
+    Name = "nat-eip"
+  }
+}
 
+# NAT Gateway in Public Subnet 2
+resource "aws_nat_gateway" "nat" {
+  allocation_id = aws_eip.nat.id
+  subnet_id     = aws_subnet.subnet-pub-2
+
+  tags = {
+    Name = "gw NAT"
+  }
+
+}
+
+# Create Internet Gateway for public internet access
 resource "aws_internet_gateway" "mali-IGW" {
   vpc_id = aws_vpc.test_vpc.id
   tags = {
@@ -61,6 +84,7 @@ resource "aws_internet_gateway" "mali-IGW" {
   }
 }
 
+# Create public route table and add route to Internet Gateway
 resource "aws_route_table" "mali-pub-RT" {
   vpc_id = aws_vpc.test_vpc.id
 
@@ -73,15 +97,37 @@ resource "aws_route_table" "mali-pub-RT" {
     Name = "mali-pub-RT"
   }
 }
-
+# Associate subnet-pub-1 with public route table
 resource "aws_route_table_association" "subnet-pub-1-a" {
   subnet_id      = aws_subnet.subnet-pub-1.id
   route_table_id = aws_route_table.mali-pub-RT.id
 
 }
 
+# Associate subnet-pub-2 with public route table
 resource "aws_route_table_association" "subnet-pub-2-a" {
   subnet_id      = aws_subnet.subnet-pub-2.id
   route_table_id = aws_route_table.mali-pub-RT.id
+
+}
+
+# Create private route table for subnet-priv-2 that routes via NAT Gateway
+resource "aws_route_table" "mali-priv-2-RT" {
+  vpc_id = aws_vpc.test_vpc.id
+
+  route = {
+    cidr_block     = "0.0.0.0/0"
+    nat_gateway_id = aws_nat_gateway.id
+  }
+
+  tags = {
+    Name = "priv-2-nat-RT"
+  }
+}
+
+# Associate ONLY subnet-priv-2 with NAT route
+resource "aws_route_table_association" "subnet-priv-2-a" {
+  subnet_id      = aws_subnet.subnet-priv-2.id
+  route_table_id = aws_route_table.mali-priv-2-RT.id
 
 }
