@@ -1,6 +1,6 @@
 resource "aws_security_group" "mali-sg" {
   name        = "mali-sg"
-  vpc_id      = aws_vpc.test_vpc.id
+  vpc_id      = aws_vpc.second_vpc.id
   description = "mali-sg"
   tags = {
     Name = "mali-sg"
