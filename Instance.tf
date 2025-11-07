@@ -8,62 +8,21 @@ data "aws_ami" "amiID" {
   }
 }
 
-resource "aws_instance" "app" {
-  count                  = 2
-  ami                    = var.amiID[var.region]
-  instance_type          = "t3.micro"
-  key_name               = "mali-key"
-  vpc_security_group_ids = [aws_security_group.mali-sg.id]
-  availability_zone      = count.index == 0 ? var.zone1 : var.zone2
-  subnet_id              = count.index == 0 ? aws_subnet.subnet-pub-1.id : aws_subnet.subnet-pub-2.id
+module "compute" {
+  source = "./compute"
 
-
-
-  tags = {
-    Name    = "name_of_instance"
-    Project = "Test Project"
-  }
-
-  provisioner "file" {
-    source      = "web.sh"
-    destination = "/tmp/web.sh"
-  }
-
-  connection {
-    type        = "ssh"
-    user        = var.webuser
-    private_key = file("malikey")
-    host        = self.public_ip
-  }
-
-  provisioner "remote-exec" {
-
-    inline = [
-      "chmod +x /tmp/web.sh",
-      "sudo /tmp/web.sh"
-    ]
-  }
-
-  provisioner "local-exec" {
-
-    command = "echo ${self.private_ip} >> private_ips.txt"
-  }
-
+  ami_id            = data.aws_ami.amiID.id
+  security_group_id = aws_security_group.mali-sg.id
+  subnet_ids        = [aws_subnet.subnet-pub-1.id, aws_subnet.subnet-pub-2.id]
 }
 
-resource "aws_ec2_instance_state" "web-state" {
-  count       = 2
-  instance_id = aws_instance.app[count.index].id
-  state       = "running"
+
+output "asg_name" {
+  description = "Auto Scaling Group name"
+  value       = module.compute.asg_name
 }
 
-output "WebPublicIP" {
-  description = "AMI ID of Linux Amazon"
-  value       = [for i in aws_instance.app : i.public_ip]
+output "asg_launch_template" {
+  description = "Launch template used by ASG"
+  value       = module.compute.asg_launch_template_id
 }
-
-output "WebPrivateIP" {
-  description = "AMI ID of Linux Amazon"
-  value       = [for i in aws_instance.app : i.private_ip]
-}
-
