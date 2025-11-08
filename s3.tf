@@ -3,7 +3,8 @@ resource "random_id" "randomness" {
 }
 
 resource "aws_s3_bucket" "my_s3_bucket" {
-  bucket = "my-new-tf-test-bucket-${random_id.randomness.hex}"
+  bucket = "my-new-bucket-${random_id.randomness.hex}"
+  region = "us-east-1"
 
   force_destroy = true
 

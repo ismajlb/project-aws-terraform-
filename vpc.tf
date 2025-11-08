@@ -71,7 +71,7 @@ resource "aws_nat_gateway" "nat" {
   subnet_id     = aws_subnet.subnet-pub-2.id
 
   tags = {
-    Name = "gw NAT"
+    Name = "gw-NAT"
   }
 
 }
