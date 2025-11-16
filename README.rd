@@ -7,16 +7,18 @@ Public subnets (10.0.1.0 + 10.0.2.0) → open to IGW, for ALBs, bastion hosts, N
 That’s a good security design. wE’re segmenting intentionally.
 
 
-The next steps will be:
+Done:
 1. S3 has been moved out of VPC 
     Gateway Endpoint will be implemented so the traffic will be on private network
 
-
+Next steps:
 
 2. Implementing Aplication Load Balancer
 3. DB will be implemented on Subnet Private 1. Uilt a multi-AZ RDS PostgreSQL architecture. 
     Automated creation of DB parameters, monitoring with CloudWatch, and implemented automated backups with retention policies.
+    or
+    DynamoDB DB has been added to the diagram but not implemted on Terraform but will check which one will be implemented.
 
 4. in the end will be implemented Monitoring and Alerts
 
-5. DynamoDB DB has been added to the diagram but not implemted on Terraform.
+5. On S3, no EC2 has access to write. EC2 need to have IAM Role or bucket policy should allow to write on S3.
