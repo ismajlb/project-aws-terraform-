@@ -16,5 +16,6 @@ resource "aws_autoscaling_group" "app_asg" {
     key                 = "Project"
     value               = "Test Project"
     propagate_at_launch = true
+
   }
 }

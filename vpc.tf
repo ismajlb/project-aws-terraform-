@@ -1,24 +1,26 @@
+data "aws_region" "current" {}
+
 # Create the main VPC
 resource "aws_vpc" "second_vpc" {
-  cidr_block           = "10.0.0.0/16"
+  cidr_block           = var.variable_sub_cidr_block
   enable_dns_support   = true
   enable_dns_hostnames = true
 
   tags = {
-    Name = "${var.project_name}-vpc"
+    Name   = "${var.project_name}-vpc"
+    Region = data.aws_region.current.region
   }
 }
 
 # Create first public subnet in Zone 1
 resource "aws_subnet" "subnet-pub-1" {
   vpc_id                  = aws_vpc.second_vpc.id
-  cidr_block              = "10.0.1.0/24"
-  map_public_ip_on_launch = "true"
+  cidr_block              = var.variable_sub_cidr_block
+  map_public_ip_on_launch = var.variables_sub_auto_ip
   availability_zone       = var.zone1
   tags = {
     Name = "subnet-pub-1"
   }
-
 }
 
 # Create second public subnet in Zone 2
@@ -131,4 +133,9 @@ resource "aws_route_table_association" "subnet-priv-2-a" {
   subnet_id      = aws_subnet.subnet-priv-2.id
   route_table_id = aws_route_table.mali-priv-2-RT.id
 
+}
+
+output "vpc_information" {
+  description = "VPC Information about enviroment"
+  value       = "Your ${aws_vpc.second_vpc.tags.Name} VPC has an ID of ${aws_vpc.second_vpc.id}"
 }

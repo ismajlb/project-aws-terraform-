@@ -9,8 +9,7 @@ data "aws_ami" "amiID" {
 }
 
 module "compute" {
-  source = "./compute"
-
+  source            = "./compute"
   ami_id            = data.aws_ami.amiID.id
   security_group_id = aws_security_group.mali-sg.id
   subnet_ids        = [aws_subnet.subnet-pub-1.id, aws_subnet.subnet-pub-2.id]

@@ -22,6 +22,16 @@ variable "amiID" {
   }
 }
 
+variable "variable_sub_cidr_block" {
+  default = "10.0.0.0/16"
+
+}
+
+variable "variables_sub_auto_ip" {
+  description = "Set Automatic IP Assignment for Variables Subnet"
+  type        = bool
+}
+
 variable "project_name" {
   default = "mali"
 }

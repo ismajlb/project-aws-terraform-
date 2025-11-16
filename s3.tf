@@ -10,6 +10,6 @@ resource "aws_s3_bucket" "my_s3_bucket" {
 
   tags = {
     Name    = "My S3 bucket"
-    Purpose = "Intro to Resource Block Lab"
+    Purpose = "Intro to Resource Block Testing"
   }
 }

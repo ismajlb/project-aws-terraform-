@@ -10,3 +10,7 @@ That’s a good security design. wE’re segmenting intentionally.
 The next steps will be:
 1. Implementing Aplication Load Balancer
 2. Moving S3 out of of the region and creating an Gateway Endpoint. -> S3 has been moved to another region. Gateway Endpoint will be implemented.
+3. DB will be implemented on Subnet Private 1. Uilt a multi-AZ RDS PostgreSQL architecture. 
+    Automated creation of DB parameters, monitoring with CloudWatch, and implemented automated backups with retention policies.
+
+in the end will be implemented Monitoring and Alerts
