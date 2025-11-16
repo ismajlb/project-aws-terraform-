@@ -30,6 +30,7 @@ variable "variable_sub_cidr_block" {
 variable "variables_sub_auto_ip" {
   description = "Set Automatic IP Assignment for Variables Subnet"
   type        = bool
+  default     = true
 }
 
 variable "project_name" {
