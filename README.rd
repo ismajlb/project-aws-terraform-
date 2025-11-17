@@ -1,4 +1,4 @@
-<h1>Read this note in order to understand the project</h1>
+<h1>Two-tier application architecture built with Terraform on AWS for scalable and secure infrastructureh1>
 
 I’ve built a two-tier architecture, a classic and deliberate pattern:
 Private subnet 1 (10.0.10.0/24) → completely isolated, no outbound internet. Ideal for backend services like databases.
@@ -8,17 +8,28 @@ That’s a good security design. wE’re segmenting intentionally.
 
 
 Done:
-1. S3 has been moved out of VPC 
-    Gateway Endpoint will be implemented so the traffic will be on private network
 
-Next steps:
+VPC Setup with subnet tiers (public & private), route tables, and NAT gateway.
+S3 moved out of VPC:
+    Access is controlled via an S3 VPC Gateway Endpoint (planned for private network traffic).
+    IAM policies prepared for controlled access (no direct EC2 write to S3 without role or policy).
 
-2. Implementing Aplication Load Balancer
-3. DB will be implemented on Subnet Private 1. Uilt a multi-AZ RDS PostgreSQL architecture. 
-    Automated creation of DB parameters, monitoring with CloudWatch, and implemented automated backups with retention policies.
-    or
-    DynamoDB DB has been added to the diagram but not implemted on Terraform but will check which one will be implemented.
 
-4. in the end will be implemented Monitoring and Alerts
 
-5. On S3, no EC2 has access to write. EC2 need to have IAM Role or bucket policy should allow to write on S3.
+🚀 Next Steps
+
+Application Load Balancer (ALB)
+Distribute traffic across auto-scaled EC2 instances in private subnets.
+Target groups and health checks included.
+
+Database Tier
+Deploy a Multi-AZ PostgreSQL RDS instance in Private Subnet 1.
+Automated backups, CloudWatch monitoring, and DB parameter settings.
+(Optional) Evaluate switching to DynamoDB based on workload.
+
+Monitoring and Alerting
+CloudWatch dashboard and alarms
+SNS notifications for critical events
+
+Caching
+Add ElastiCache (Redis/Memcached) for read-heavy applications.

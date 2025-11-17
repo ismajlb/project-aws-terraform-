@@ -15,7 +15,7 @@ resource "aws_vpc" "second_vpc" {
 # Create first public subnet in Zone 1
 resource "aws_subnet" "subnet-pub-1" {
   vpc_id                  = aws_vpc.second_vpc.id
-  cidr_block              = var.variable_sub_cidr_block
+  cidr_block              = "10.0.1.0/24"
   map_public_ip_on_launch = var.variables_sub_auto_ip
   availability_zone       = var.zone1
   tags = {

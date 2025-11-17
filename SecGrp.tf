@@ -18,7 +18,8 @@ resource "aws_vpc_security_group_ingress_rule" "sshfromyIP" {
 }
 
 # Allow HTTP from any IP to port 80
-resource "aws_vpc_security_group_ingress_rule" "allow_https" {
+resource "aws_vpc_security_group_ingress_rule" "allow_http" {
+
   security_group_id = aws_security_group.mali-sg.id
   cidr_ipv4         = "0.0.0.0/0"
   from_port         = 80
@@ -26,8 +27,8 @@ resource "aws_vpc_security_group_ingress_rule" "allow_https" {
   to_port           = 80
 }
 
-# Allow HTTP from any IP to port 443, not yet implemented
-resource "aws_vpc_security_group_ingress_rule" "allow_http" {
+# Allow HTTPS from any IP to port 443
+resource "aws_vpc_security_group_ingress_rule" "allow_https" {
   security_group_id = aws_security_group.mali-sg.id
   cidr_ipv4         = "0.0.0.0/0"
   from_port         = 443

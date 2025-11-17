@@ -3,9 +3,9 @@ variable "ami_id" {
   type        = string
 }
 
-variable "security_group_id" {
-  description = "ID of the security group to attach"
-  type        = string
+variable "security_group_ids" {
+  description = "List of Security Group IDs for instances"
+  type        = list(string)
 }
 
 variable "subnet_ids" {
