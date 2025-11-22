@@ -4,7 +4,6 @@ resource "random_id" "randomness" {
 
 resource "aws_s3_bucket" "my_s3_bucket" {
   bucket = "my-new-bucket-${random_id.randomness.hex}"
-  region = "eu-central-1"
 
   force_destroy = true
 

@@ -8,7 +8,7 @@ resource "aws_vpc" "second_vpc" {
 
   tags = {
     Name   = "${var.project_name}-vpc"
-    Region = data.aws_region.current.region
+    Region = data.aws_region.current.name
   }
 }
 

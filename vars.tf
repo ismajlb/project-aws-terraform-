@@ -33,11 +33,6 @@ variable "variables_sub_auto_ip" {
   default     = true
 }
 
-variable "security_group_id" {
-  description = "List of security group IDs to assign to the launch template"
-  type        = list(string)
-}
-
 variable "project_name" {
   default = "mali"
 }
