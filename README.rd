@@ -18,16 +18,16 @@ S3 moved out of VPC:
 
 🚀 Next Steps
 
-Application Load Balancer (ALB)
-Distribute traffic across auto-scaled EC2 instances in private subnets.
+1.Application Load Balancer (ALB)
+Distribute traffic across auto-scaled EC2 instances in public subnets.
 Target groups and health checks included.
 
-Database Tier
+2.Database Tier
 Deploy a Multi-AZ PostgreSQL RDS instance in Private Subnet 1.
 Automated backups, CloudWatch monitoring, and DB parameter settings.
 (Optional) Evaluate switching to DynamoDB based on workload.
 
-Monitoring and Alerting
+3. Monitoring and Alerting
 CloudWatch dashboard and alarms
 SNS notifications for critical events
 
