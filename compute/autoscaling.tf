@@ -1,10 +1,12 @@
 resource "aws_autoscaling_group" "app_asg" {
   name                = "app-asg"
   desired_capacity    = 2
-  max_size            = 3
+  max_size            = 4
   min_size            = 1
   vpc_zone_identifier = var.subnet_ids
-  health_check_type   = "EC2"
+
+  target_group_arns = var.target_group_arns
+  health_check_type = "ELB"
 
 
   launch_template {
@@ -14,7 +16,7 @@ resource "aws_autoscaling_group" "app_asg" {
 
   tag {
     key                 = "Project"
-    value               = "Test Project"
+    value               = "AutoScaling-App-instance"
     propagate_at_launch = true
 
   }

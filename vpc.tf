@@ -27,7 +27,7 @@ resource "aws_subnet" "subnet-pub-1" {
 resource "aws_subnet" "subnet-pub-2" {
   vpc_id                  = aws_vpc.second_vpc.id
   cidr_block              = "10.0.2.0/24"
-  map_public_ip_on_launch = "true"
+  map_public_ip_on_launch = true
   availability_zone       = var.zone2
   tags = {
     Name = "subnet-pub-2"
@@ -60,7 +60,7 @@ resource "aws_subnet" "subnet-priv-2" {
 
 # Allocate an Elastic IP for the NAT Gateway
 resource "aws_eip" "nat" {
-  depends_on = [aws_internet_gateway.main-IGW]
+  depends_on = [aws_internet_gateway.main_IGW]
   domain     = "vpc"
   tags = {
     Name = "nat-eip"
@@ -79,7 +79,7 @@ resource "aws_nat_gateway" "nat" {
 }
 
 # Create Internet Gateway for public internet access
-resource "aws_internet_gateway" "main-IGW" {
+resource "aws_internet_gateway" "main_IGW" {
   vpc_id = aws_vpc.second_vpc.id
   tags = {
     Name = "main-IGW"
@@ -92,7 +92,7 @@ resource "aws_route_table" "mali-pub-RT" {
 
   route {
     cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.main-IGW.id
+    gateway_id = aws_internet_gateway.main_IGW.id
   }
 
   tags = {

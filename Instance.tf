@@ -9,11 +9,18 @@ data "aws_ami" "amiID" {
 }
 
 module "compute" {
-  source             = "./compute"
+  source = "./compute"
+
   ami_id             = data.aws_ami.amiID.id
   security_group_ids = [aws_security_group.mali-sg.id]
-  subnet_ids         = [aws_subnet.subnet-pub-1.id, aws_subnet.subnet-pub-2.id]
+  subnet_ids = [
+    aws_subnet.subnet-priv-1.id,
+    aws_subnet.subnet-priv-2.id
+  ]
+
+  target_group_arns = [aws_lb_target_group.app_tg.arn]
 }
+
 
 
 output "asg_name" {

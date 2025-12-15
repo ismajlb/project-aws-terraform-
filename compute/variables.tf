@@ -12,3 +12,8 @@ variable "subnet_ids" {
   description = "List of subnet IDs for the ASG"
   type        = list(string)
 }
+
+variable "target_group_arns" {
+  description = "Target Group ARNs for the ASG"
+  type        = list(string)
+}

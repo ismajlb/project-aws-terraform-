@@ -31,5 +31,8 @@ Automated backups, CloudWatch monitoring, and DB parameter settings.
 CloudWatch dashboard and alarms
 SNS notifications for critical events
 
-Caching
+4. Caching
 Add ElastiCache (Redis/Memcached) for read-heavy applications.
+
+5. AWS Certificate Manager 
+    We will impement Certificate Manager in order to have anything cetified
