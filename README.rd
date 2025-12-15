@@ -14,25 +14,24 @@ S3 moved out of VPC:
     Access is controlled via an S3 VPC Gateway Endpoint (planned for private network traffic).
     IAM policies prepared for controlled access (no direct EC2 write to S3 without role or policy).
 
+1.Application Load Balancer (ALB)
+    Distribute traffic across auto-scaled EC2 instances in public subnets.
+    Target groups and health checks included.
+
 
 
 🚀 Next Steps
-
-1.Application Load Balancer (ALB)
-Distribute traffic across auto-scaled EC2 instances in public subnets.
-Target groups and health checks included.
-
-2.Database Tier
+1.Database Tier
 Deploy a Multi-AZ PostgreSQL RDS instance in Private Subnet 1.
 Automated backups, CloudWatch monitoring, and DB parameter settings.
 (Optional) Evaluate switching to DynamoDB based on workload.
 
-3. Monitoring and Alerting
+2. Monitoring and Alerting
 CloudWatch dashboard and alarms
 SNS notifications for critical events
 
-4. Caching
+3. Caching
 Add ElastiCache (Redis/Memcached) for read-heavy applications.
 
-5. AWS Certificate Manager 
+4. AWS Certificate Manager 
     We will impement Certificate Manager in order to have anything cetified

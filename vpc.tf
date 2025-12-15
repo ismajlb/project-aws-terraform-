@@ -58,6 +58,14 @@ resource "aws_subnet" "subnet-priv-2" {
 
 }
 
+# Create Internet Gateway for public internet access
+resource "aws_internet_gateway" "main_IGW" {
+  vpc_id = aws_vpc.second_vpc.id
+  tags = {
+    Name = "main-IGW"
+  }
+}
+
 # Allocate an Elastic IP for the NAT Gateway
 resource "aws_eip" "nat" {
   depends_on = [aws_internet_gateway.main_IGW]
@@ -67,6 +75,7 @@ resource "aws_eip" "nat" {
   }
 }
 
+
 # NAT Gateway in Public Subnet 2
 resource "aws_nat_gateway" "nat" {
   allocation_id = aws_eip.nat.id
@@ -74,15 +83,6 @@ resource "aws_nat_gateway" "nat" {
 
   tags = {
     Name = "gw-NAT"
-  }
-
-}
-
-# Create Internet Gateway for public internet access
-resource "aws_internet_gateway" "main_IGW" {
-  vpc_id = aws_vpc.second_vpc.id
-  tags = {
-    Name = "main-IGW"
   }
 }
 
