@@ -11,15 +11,14 @@ data "aws_ami" "amiID" {
 module "compute" {
   source = "./compute"
 
-  ami_id             = data.aws_ami.amiID.id
-  security_group_ids = [aws_security_group.mali-sg.id]
-  subnet_ids = [
-    aws_subnet.subnet-priv-1.id,
-    aws_subnet.subnet-priv-2.id
-  ]
+  ami_id                = data.aws_ami.amiID.id
+  security_group_ids    = [aws_security_group.mali-sg.id]
+  subnet_ids            = [aws_subnet.subnet-priv-1.id, aws_subnet.subnet-priv-2.id]
+  target_group_arns     = [aws_lb_target_group.app_tg.arn]
+  instance_profile_name = aws_iam_instance_profile.ec2_profile.name
 
-  target_group_arns = [aws_lb_target_group.app_tg.arn]
 }
+
 
 
 

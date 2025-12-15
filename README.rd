@@ -30,8 +30,13 @@ Automated backups, CloudWatch monitoring, and DB parameter settings.
 CloudWatch dashboard and alarms
 SNS notifications for critical events
 
+3. AWS System Manager - SSM
+    IAM Role me AmazonSSMManagedInstanceCore
+    SSM Agent (Amazon Linux e ka default)
+
 3. Caching
 Add ElastiCache (Redis/Memcached) for read-heavy applications.
 
 4. AWS Certificate Manager 
     We will impement Certificate Manager in order to have anything cetified
+

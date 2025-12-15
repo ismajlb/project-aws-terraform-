@@ -7,12 +7,25 @@ resource "aws_security_group" "mali-sg" {
     Name = "mali-sg"
   }
 }
+
+# Trafik only fromm ALB
+resource "aws_security_group_rule" "allow_http_from_alb" {
+  type                     = "ingress"
+  from_port                = 80
+  to_port                  = 80
+  protocol                 = "tcp"
+  security_group_id        = aws_security_group.mali-sg.id
+  source_security_group_id = aws_security_group.alb_sg.id
+}
+
+
 /*
 
    *******
    SINCE WE ARE HAVING ASG WE DO NOT NEED 
    SECURITY GROUPS FOR ALLOWING THE DIRECT SECURITY GROUPS
    ********
+
 # Allow ssh from any IP to port 22
 resource "aws_vpc_security_group_ingress_rule" "sshfromyIP" {
   security_group_id = aws_security_group.mali-sg.id

@@ -36,3 +36,8 @@ variable "variables_sub_auto_ip" {
 variable "project_name" {
   default = "mali"
 }
+
+variable "instance_profile_name" {
+  description = "IAM Instance Profile name for EC2"
+  type        = string
+}

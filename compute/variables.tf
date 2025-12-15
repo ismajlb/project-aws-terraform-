@@ -17,3 +17,8 @@ variable "target_group_arns" {
   description = "Target Group ARNs for the ASG"
   type        = list(string)
 }
+
+variable "instance_profile_name" {
+  description = "IAM Instance Profile name for EC2"
+  type        = string
+}

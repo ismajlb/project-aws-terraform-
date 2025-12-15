@@ -4,6 +4,9 @@ resource "aws_launch_template" "app_lt" {
   instance_type          = "t3.micro"
   key_name               = "mali-key"
   vpc_security_group_ids = var.security_group_ids
+  iam_instance_profile {
+    name = var.instance_profile_name
+  }
 
 
   user_data = base64encode(file("${path.module}/../web.sh"))
